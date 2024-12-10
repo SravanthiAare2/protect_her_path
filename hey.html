@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+ <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Her Safety</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .alert-btn {
+            background-color: red;
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 200px;
+        }
+        .scenario-btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="text-center">
+            <h1>ProtectHerPath</h1>
+            <p>Her safety is our priority</p>
+        </header>
+
+        <!-- Map to show the user's location -->
+        <div id="map"></div>
+
+        <!-- Alert Button -->
+        <div class="button-container">
+            <button class="alert-btn" onclick="sendAlert()">Send Alert</button>
+        </div>
+
+        <!-- Scenario Simulation -->
+        <div class="text-center">
+            <h2>Send Safety Scenario</h2>
+            <button class="scenario-btn btn btn-primary" onclick="startScenario()">Send Safety Scenario</button>
+        </div>
+
+        <!-- Safety Tips Section -->
+        <div id="safety-tips" class="mt-5">
+            <h3>Safety Tips</h3>
+            <ul>
+                <li>Avoid walking alone at night in isolated areas.</li>
+                <li>Trust your instincts; if something feels off, seek help.</li>
+                <li>Always share your location with a trusted contact.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let map, userMarker;
+        
+        // Function to initialize the map and show the user's location
+        function initMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Initialize map
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 15,
+                        center: userLocation
+                    });
+
+                    // Add a marker for the user's location
+                    userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: "Your Location"
+                    });
+                }, function(error) {
+                    alert("Unable to fetch location. Please enable GPS.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to simulate sending an SOS alert
+        function sendAlert() {
+            alert("SOS Alert Sent!Notifying to the nearby rescue team.");
+            //An SMS/email or notification to contacts/authorities.
+        }
+
+        // Function to send predefined safety statements
+        function startScenario() {
+            const messages = [
+                "Stay calm and find a safe, well-lit area.",
+                "Contact the nearest police station or ask for help.",
+                "If possible, record audio or video of the incident.",
+                "Keep your phone fully charged and GPS on.",
+                "Do not engage or confront the person if it feels unsafe."
+            ];
+
+            messages.forEach(message => {
+                sendMessage(message);
+            });
+        }
+
+        // Function to send a message (simulating communication)
+        function sendMessage(message) {
+            alert("Message sent: " + message);
+            // In a real app, this will send this to the girl's device via an API or SMS gateway.
+        }
+    </script>
+</body>
+</html>
